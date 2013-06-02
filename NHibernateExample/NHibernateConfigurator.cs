@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using NHibernate;
+using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.Attributes;
 using Configuration = NHibernate.Cfg.Configuration;
 
@@ -16,9 +17,9 @@ namespace NHibernateExample
 
             var configurationProperties = new Dictionary<string, string>
                 {
-                    {"dialect", typeof(NHibernate.Dialect.PostgreSQL82Dialect).FullName},
-                    {"connection.driver_class", typeof(NHibernate.Driver.NpgsqlDriver).FullName},
-                    {"connection.connection_string", conectionString},
+                    {NHibernate.Cfg.Environment.Dialect, typeof(NHibernate.Dialect.PostgreSQL82Dialect).FullName},
+                    {NHibernate.Cfg.Environment.ConnectionDriver, typeof(NHibernate.Driver.NpgsqlDriver).FullName},
+                    {NHibernate.Cfg.Environment.ConnectionString, conectionString},
                 };
 
             var assemblyWithEntities = Assembly.GetExecutingAssembly();
@@ -26,17 +27,17 @@ namespace NHibernateExample
             var serializer = HbmSerializer.Default;
             serializer.Validate = true;
 
-#if DEBUG
             MemoryStream hbmStream = serializer.Serialize(assemblyWithEntities);
+            string hbmXml;
             using (var reader = new StreamReader(hbmStream))
             {
-                string hbmXml = reader.ReadToEnd();
+                hbmXml = reader.ReadToEnd();
             }
-#endif
-
+            
             var config = new Configuration()
                 .SetProperties(configurationProperties)
-                .AddInputStream(serializer.Serialize(assemblyWithEntities));
+                .Configure()  // add properties from app.config
+                .AddXml(hbmXml);
 
             SessionFactory = config.BuildSessionFactory();
         }
