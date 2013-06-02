@@ -17,8 +17,8 @@ namespace NHibernateExample
 
             var configurationProperties = new Dictionary<string, string>
                 {
-                    {NHibernate.Cfg.Environment.Dialect, typeof(NHibernate.Dialect.PostgreSQL82Dialect).FullName},
-                    {NHibernate.Cfg.Environment.ConnectionDriver, typeof(NHibernate.Driver.NpgsqlDriver).FullName},
+                    {NHibernate.Cfg.Environment.Dialect, typeof (NHibernate.Dialect.PostgreSQL82Dialect).FullName},
+                    {NHibernate.Cfg.Environment.ConnectionDriver, typeof (NHibernate.Driver.NpgsqlDriver).FullName},
                     {NHibernate.Cfg.Environment.ConnectionString, conectionString},
                 };
 
