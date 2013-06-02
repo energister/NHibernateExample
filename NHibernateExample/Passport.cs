@@ -10,8 +10,7 @@ namespace NHibernateExample
         [Generator(1, Class = "native")]
         public virtual long Id { get; set; }
 
-        //[Property(NotNull = true)]
-        [ManyToOne(NotNull = true, Column = "person_id")]
+        [ManyToOne(NotNull = true, Column = "person_id", Unique = true, Lazy = Laziness.False, Fetch = FetchMode.Join)]
         public virtual Person Person { get; set; }
 
         [Property(NotNull = true)]

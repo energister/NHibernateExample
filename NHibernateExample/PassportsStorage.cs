@@ -32,14 +32,5 @@ namespace NHibernateExample
                 return results;
             }
         }
-
-        public Person LoadPassportOwner(Passport passport)
-        {
-            using (ISession session = _factory.OpenSession())
-            {
-                var person = session.Get<Passport>(passport.Id).Person;
-                return session.Get<Person>(person.Id);
-            }
-        }
     }
 }

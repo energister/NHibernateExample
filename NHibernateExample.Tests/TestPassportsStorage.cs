@@ -27,18 +27,17 @@ namespace NHibernateExample.Tests
             var passport = new Passport {Person = john, Number = 98765, Issued = DateTime.Now};
             _passportsStorage.Save(passport);
 
-            var savedPassport = _passportsStorage.LoadAll().FirstOrDefault();
-            savedPassport.Should().NotBeNull();
+            var loadedPassport = _passportsStorage.LoadAll().FirstOrDefault();
+            loadedPassport.Should().NotBeNull();
 
-            savedPassport.Should().NotBeSameAs(passport);
-            savedPassport.Number.Should().Be(passport.Number);
-            savedPassport.Issued.Should().BeWithin(1.Days()).Before(passport.Issued);
+            loadedPassport.Should().NotBeSameAs(passport);
+            loadedPassport.Number.Should().Be(passport.Number);
+            loadedPassport.Issued.Should().BeWithin(1.Days()).Before(passport.Issued);
 
-            var savedPerson = savedPassport.Person;
-            savedPerson.Should().NotBeNull(); // NOTE!
-
-            var owner = _passportsStorage.LoadPassportOwner(savedPassport);
-            owner.Name.Should().Be(john.Name);
+            var loadedOwner = loadedPassport.Person;
+            loadedOwner.Should().NotBeNull();
+            loadedOwner.Should().NotBeSameAs(john);
+            loadedOwner.Name.Should().Be(john.Name);
         }
     }
 }

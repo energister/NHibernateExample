@@ -13,7 +13,7 @@ CREATE UNIQUE INDEX ON persons(ssn);
 CREATE TABLE passport
 (
 	id SERIAL NOT NULL PRIMARY KEY,
-	person_id INTEGER NOT NULL REFERENCES persons (id),
+	person_id INTEGER NOT NULL REFERENCES persons (id) UNIQUE,
 	number INTEGER NOT NULL,
 	issued DATE NOT NULL
 );
