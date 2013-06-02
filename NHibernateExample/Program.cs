@@ -8,7 +8,6 @@ namespace NHibernateExample
     {
         static void Main(string[] args)
         {
-            var storage = new NHibernateConfigurator("postgres").ProduceParentStorage();
         }
     }
 }

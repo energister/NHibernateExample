@@ -16,7 +16,13 @@ namespace NHibernateExample.Tests
             Configurator = new NHibernateConfigurator("postgres_test");
         }
 
-        protected void CleanUpTable<T>()
+        protected void CleanUpDatabase()
+        {
+            CleanUpTable<Passport>();
+            CleanUpTable<Person>();
+        }
+
+        private void CleanUpTable<T>()
         {
             CleanUpTable<T>(Configurator.SessionFactory);
         }

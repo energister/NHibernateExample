@@ -2,7 +2,7 @@
 
 namespace NHibernateExample
 {
-    [Class(Table = "people")]
+    [Class(Table = "persons")]
     public class Person
     {
         [Id(Name = "Id")]

@@ -1,20 +1,21 @@
 ﻿/* nhibernate.test database */
 
-CREATE TABLE people
+CREATE TABLE persons
 (
 	id SERIAL NOT NULL PRIMARY KEY,
 	name varchar(100) NOT NULL,
 	ssn	int NOT NULL
 );
 
-CREATE UNIQUE INDEX ON people (ssn)
+CREATE UNIQUE INDEX ON persons(ssn);
 
 
-CREATE TABLE parents
+CREATE TABLE passport
 (
 	id SERIAL NOT NULL PRIMARY KEY,
-	person_id INTEGER REFERENCES people (id),
-	first_child_birthdate DATE NOT NULL
+	person_id INTEGER NOT NULL REFERENCES persons (id),
+	number INTEGER NOT NULL,
+	issued DATE NOT NULL
 );
 
-CREATE UNIQUE INDEX ON parents (first_child_birthdate)
+CREATE UNIQUE INDEX ON passport (issued)

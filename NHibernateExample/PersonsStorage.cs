@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NHibernate;
 
 namespace NHibernateExample
 {
-    public class ParentsStorage
+    public class PersonsStorage
     {
         private readonly ISessionFactory _factory;
 
-        public ParentsStorage(ISessionFactory factory)
+        public PersonsStorage(ISessionFactory factory)
         {
             _factory = factory;
         }
 
-        public void Save(Parent parent)
+        public void Save(Person person)
         {
             using (var session = _factory.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    session.SaveOrUpdate(parent);
+                    session.SaveOrUpdate(person);
                     transaction.Commit();
                 }
             }
         }
 
-        public IEnumerable<Parent> LoadAll()
+        public IEnumerable<Person> LoadAll()
         {
             using (ISession session = _factory.OpenSession())
             {
-                IList<Parent> results = session.QueryOver<Parent>().List();
+                IList<Person> results = session.QueryOver<Person>().List();
                 return results;
             }
         }

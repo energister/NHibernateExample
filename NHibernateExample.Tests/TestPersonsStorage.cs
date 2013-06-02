@@ -1,21 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
-using NHibernate;
 using Xunit;
 
 namespace NHibernateExample.Tests
 {
-    public class TestParentsStorage : DatabaseTestBase
+    public class TestPersonsStorage : DatabaseTestBase
     {
-        private readonly ParentsStorage _storage;
-
-        public TestParentsStorage()
+        private readonly PersonsStorage _storage;
+        
+        public TestPersonsStorage()
         {
-            CleanUpTable<Parent>();
+            CleanUpDatabase();
 
-            _storage = Configurator.ProduceParentStorage();
+            _storage = Configurator.ProducePersonsStorage();
         }
 
         [Fact]

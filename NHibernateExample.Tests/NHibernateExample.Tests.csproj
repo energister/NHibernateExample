@@ -62,7 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestPersonStorage.cs" />
+    <Compile Include="DatabaseTestBase.cs" />
+    <Compile Include="TestPassportsStorage.cs" />
+    <Compile Include="TestPersonsStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

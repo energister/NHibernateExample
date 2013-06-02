@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Reflection;
 using NHibernate;
 using NHibernate.Mapping.Attributes;
@@ -25,6 +26,14 @@ namespace NHibernateExample
             var serializer = HbmSerializer.Default;
             serializer.Validate = true;
 
+#if DEBUG
+            MemoryStream hbmStream = serializer.Serialize(assemblyWithEntities);
+            using (var reader = new StreamReader(hbmStream))
+            {
+                string hbmXml = reader.ReadToEnd();
+            }
+#endif
+
             var config = new Configuration()
                 .SetProperties(configurationProperties)
                 .AddInputStream(serializer.Serialize(assemblyWithEntities));
@@ -33,15 +42,15 @@ namespace NHibernateExample
         }
         
         public ISessionFactory SessionFactory { get; private set; }
-
-        public PersonStorage ProducePersonStorage()
+        
+        public PersonsStorage ProducePersonsStorage()
         {
-            return new PersonStorage(SessionFactory);
+            return new PersonsStorage(SessionFactory);
         }
 
-        public ParentsStorage ProduceParentsStorage()
+        public PassportsStorage ProducePassportsStorage()
         {
-            return new ParentsStorage(SessionFactory);
+            return new PassportsStorage(SessionFactory);
         }
     }
 }
