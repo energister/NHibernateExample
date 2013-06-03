@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using NHibernateExample.Entities;
+using NHibernateExample.Storages;
 using Xunit;
 
 namespace NHibernateExample.Tests

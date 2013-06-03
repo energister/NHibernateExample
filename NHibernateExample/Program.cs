@@ -8,6 +8,9 @@ namespace NHibernateExample
     {
         static void Main(string[] args)
         {
+            var configurator = new NHibernateConfigurator();
+            
+            PersonsStorage storage = configurator.ProducePersonsStorage();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using NHibernate.Mapping.Attributes;
 
-namespace NHibernateExample
+namespace NHibernateExample.Entities
 {
     [Class(Table = "passport")]
     public class Passport

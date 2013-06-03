@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using NHibernate;
-using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.Attributes;
+using NHibernateExample.Storages;
 using Configuration = NHibernate.Cfg.Configuration;
 
 namespace NHibernateExample
 {
     public class NHibernateConfigurator
     {
-        public NHibernateConfigurator(string connectionName)
+        public NHibernateConfigurator()
         {
-            string conectionString = ConfigurationManager.ConnectionStrings[connectionName].ConnectionString;
+            string conectionString = ConfigurationManager.ConnectionStrings.Cast<ConnectionStringSettings>().Last().ConnectionString;
 
             var configurationProperties = new Dictionary<string, string>
                 {

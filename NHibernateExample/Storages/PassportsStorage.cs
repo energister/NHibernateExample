@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using NHibernate;
+using NHibernateExample.Entities;
 
-namespace NHibernateExample
+namespace NHibernateExample.Storages
 {
     public class PassportsStorage
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
+using NHibernateExample.Entities;
 
 namespace NHibernateExample.Tests
 {
@@ -13,7 +14,7 @@ namespace NHibernateExample.Tests
 
         public DatabaseTestBase()
         {
-            Configurator = new NHibernateConfigurator("postgres_test");
+            Configurator = new NHibernateConfigurator();
         }
 
         protected void CleanUpDatabase()
