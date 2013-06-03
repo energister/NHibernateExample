@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using NHibernate;
 using NHibernateExample.Entities;
 using NHibernateExample.Storages;
 using Xunit;
@@ -21,15 +22,40 @@ namespace NHibernateExample.Tests
         }
 
         [Fact]
-        public void SaveLoad()
+        public void SaveLoadWithoutRelations()
         {
-            var john = new Person {Name = "John", SSN = 123454321};
-            _personsStorage.Save(john);
-            
+            /* Arrange */
+            var john = ProducePerson();
+
             var passport = new Passport {Person = john, Number = 98765, Issued = DateTime.Now};
             _passportsStorage.Save(passport);
 
+            /* Act */
             var loadedPassport = _passportsStorage.LoadAll().FirstOrDefault();
+            
+            /* Assert */
+            loadedPassport.Should().NotBeNull();
+
+            loadedPassport.Should().NotBeSameAs(passport);
+            loadedPassport.Number.Should().Be(passport.Number);
+            loadedPassport.Issued.Should().BeWithin(1.Days()).Before(passport.Issued);
+
+            NHibernateUtil.IsInitialized(loadedPassport.Person).Should().BeFalse();
+        }
+
+        [Fact]
+        public void SaveLoadWithRelations()
+        {
+            /* Arrange */
+            var john = ProducePerson();
+
+            var passport = new Passport { Person = john, Number = 98765, Issued = DateTime.Now };
+            _passportsStorage.Save(passport);
+
+            /* Act */
+            var loadedPassport = _passportsStorage.LoadAllWithRelations().FirstOrDefault();
+            
+            /* Assert */
             loadedPassport.Should().NotBeNull();
 
             loadedPassport.Should().NotBeSameAs(passport);
@@ -39,7 +65,15 @@ namespace NHibernateExample.Tests
             var loadedOwner = loadedPassport.Person;
             loadedOwner.Should().NotBeNull();
             loadedOwner.Should().NotBeSameAs(john);
+
             loadedOwner.Name.Should().Be(john.Name);
+        }
+
+        private Person ProducePerson()
+        {
+            var john = new Person {Name = "John", SSN = 123454321};
+            _personsStorage.Save(john);
+            return john;
         }
     }
 }

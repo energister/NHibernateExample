@@ -33,5 +33,14 @@ namespace NHibernateExample.Storages
                 return results;
             }
         }
+
+        public IEnumerable<Passport> LoadAllWithRelations()
+        {
+            using (ISession session = _factory.OpenSession())
+            {
+                IList<Passport> results = session.QueryOver<Passport>().Fetch(p => p.Person).Eager.List();
+                return results;
+            }
+        }
     }
 }
