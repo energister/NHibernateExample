@@ -19,8 +19,8 @@ namespace NHibernateExample.Tests
 
         protected void CleanUpDatabase()
         {
-            CleanUpTable<Passport>();
-            CleanUpTable<Person>();
+            CleanUpTable<PassportEntity>();
+            CleanUpTable<PersonEntity>();
         }
 
         private void CleanUpTable<T>()

@@ -27,7 +27,7 @@ namespace NHibernateExample.Tests
             /* Arrange */
             var john = ProducePerson();
 
-            var passport = new Passport {Person = john, Number = 98765, Issued = DateTime.Now};
+            var passport = new PassportEntity {Person = john, Number = 98765, Issued = DateTime.Now};
 
             /* Act */
             _passportsStorage.Save(passport);
@@ -49,7 +49,7 @@ namespace NHibernateExample.Tests
             /* Arrange */
             var john = ProducePerson();
 
-            var passport = new Passport { Person = john, Number = 98765, Issued = DateTime.Now };
+            var passport = new PassportEntity { Person = john, Number = 98765, Issued = DateTime.Now };
 
             /* Act */
             _passportsStorage.Save(passport);
@@ -75,7 +75,7 @@ namespace NHibernateExample.Tests
             /* Arrange */
             var john = ProducePerson();
 
-            var passport = new Passport { Number = 98765, Issued = DateTime.Now };
+            var passport = new PassportEntity { Number = 98765, Issued = DateTime.Now };
 
             /* Act */
             _passportsStorage.SaveFor(john.SSN, passport);
@@ -94,9 +94,9 @@ namespace NHibernateExample.Tests
             loadedOwner.Name.Should().Be(john.Name);
         }
         
-        private Person ProducePerson()
+        private PersonEntity ProducePerson()
         {
-            var john = new Person {Name = "John", SSN = 123454321};
+            var john = new PersonEntity {Name = "John", SSN = 123454321};
             _personsStorage.Save(john);
             return john;
         }

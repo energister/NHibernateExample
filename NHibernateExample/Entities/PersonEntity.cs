@@ -3,7 +3,7 @@
 namespace NHibernateExample
 {
     [Class(Table = "persons")]
-    public class Person
+    public class PersonEntity
     {
         [Id(Name = "Id")]
         [Generator(1, Class = "native")]

@@ -12,7 +12,7 @@ namespace NHibernateExample
             _factory = factory;
         }
 
-        public void Save(Person person)
+        public void Save(PersonEntity person)
         {
             using (var session = _factory.OpenSession())
             {
@@ -24,11 +24,11 @@ namespace NHibernateExample
             }
         }
 
-        public IEnumerable<Person> LoadAll()
+        public IEnumerable<PersonEntity> LoadAll()
         {
             using (ISession session = _factory.OpenSession())
             {
-                IList<Person> results = session.QueryOver<Person>().List();
+                IList<PersonEntity> results = session.QueryOver<PersonEntity>().List();
                 return results;
             }
         }

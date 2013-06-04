@@ -18,7 +18,7 @@ namespace NHibernateExample.Tests
         [Fact]
         public void SaveLoad()
         {
-            var person = new Person() {Name = "Nick", SSN = 123456789};
+            var person = new PersonEntity() {Name = "Nick", SSN = 123456789};
             _storage.Save(person);
 
             var savedPerson = _storage.LoadAll().FirstOrDefault();

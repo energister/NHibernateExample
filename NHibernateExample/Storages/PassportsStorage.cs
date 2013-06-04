@@ -13,7 +13,7 @@ namespace NHibernateExample.Storages
             _factory = factory;
         }
 
-        public void Save(Passport passport)
+        public void Save(PassportEntity passport)
         {
             using (var session = _factory.OpenSession())
             {
@@ -25,7 +25,7 @@ namespace NHibernateExample.Storages
             }
         }
 
-        public void SaveFor(int ssn, Passport passport)
+        public void SaveFor(int ssn, PassportEntity passport)
         {
             using (var session = _factory.OpenSession())
             {
@@ -33,12 +33,12 @@ namespace NHibernateExample.Storages
                 {
                     string hql = string.Format("INSERT INTO {0} ({1}, {2}, {3}) " +
                                                 "SELECT personWithSsn, :passportNumber, :passportIssued FROM {4} personWithSsn WHERE {5} = :ssn",
-                        typeof(Passport).Name,
+                        typeof(PassportEntity).Name,
                         MemberName.Of(() => passport.Person),
                         MemberName.Of(() => passport.Number),
                         MemberName.Of(() => passport.Issued),
-                        typeof (Person),
-                        MemberName.Of((Person person) => person.SSN));
+                        typeof(PersonEntity).Name,
+                        MemberName.Of((PersonEntity person) => person.SSN));
                     
                     session.CreateQuery(hql)
                         .SetInt32("passportNumber", passport.Number)
@@ -51,20 +51,20 @@ namespace NHibernateExample.Storages
             }
         }
 
-        public IEnumerable<Passport> LoadAll()
+        public IEnumerable<PassportEntity> LoadAll()
         {
             using (ISession session = _factory.OpenSession())
             {
-                IList<Passport> results = session.QueryOver<Passport>().List();
+                IList<PassportEntity> results = session.QueryOver<PassportEntity>().List();
                 return results;
             }
         }
 
-        public IEnumerable<Passport> LoadAllWithRelations()
+        public IEnumerable<PassportEntity> LoadAllWithRelations()
         {
             using (ISession session = _factory.OpenSession())
             {
-                IList<Passport> results = session.QueryOver<Passport>().Fetch(p => p.Person).Eager.List();
+                IList<PassportEntity> results = session.QueryOver<PassportEntity>().Fetch(p => p.Person).Eager.List();
                 return results;
             }
         }
