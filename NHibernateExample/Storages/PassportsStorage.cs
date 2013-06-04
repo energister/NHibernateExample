@@ -31,10 +31,18 @@ namespace NHibernateExample.Storages
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    const string hqlInsert = "INSERT INTO Passport (Person, Number, Issued) SELECT per, :number, :issued FROM Person per WHERE SSN = :ssn";
-                    session.CreateQuery(hqlInsert)
-                        .SetInt32("number", passport.Number)
-                        .SetDateTime("issued", passport.Issued)
+                    string hql = string.Format("INSERT INTO {0} ({1}, {2}, {3}) " +
+                                                "SELECT personWithSsn, :passportNumber, :passportIssued FROM {4} personWithSsn WHERE {5} = :ssn",
+                        typeof(Passport).Name,
+                        MemberName.Of(() => passport.Person),
+                        MemberName.Of(() => passport.Number),
+                        MemberName.Of(() => passport.Issued),
+                        typeof (Person),
+                        MemberName.Of((Person person) => person.SSN));
+                    
+                    session.CreateQuery(hql)
+                        .SetInt32("passportNumber", passport.Number)
+                        .SetDateTime("passportIssued", passport.Issued)
                         .SetInt32("ssn", ssn)
                         .ExecuteUpdate();
                     
