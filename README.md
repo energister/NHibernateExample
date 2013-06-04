@@ -8,4 +8,8 @@ There are 3 types of associations Nhibernate supports (with a few subtypes):
 * one-to-many (use FOREIGN KEY)
 * many-to-many
 
-This example also demonstrates usage of lazy loading and eager objects fetching
+This example also demonstrates:
+* usage of lazy loading and eager objects fetching;
+* INSERT INTO ... SELECT in Hibernate Query Language (HQL)
+
+

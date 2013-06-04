@@ -28,9 +28,9 @@ namespace NHibernateExample.Tests
             var john = ProducePerson();
 
             var passport = new Passport {Person = john, Number = 98765, Issued = DateTime.Now};
-            _passportsStorage.Save(passport);
 
             /* Act */
+            _passportsStorage.Save(passport);
             var loadedPassport = _passportsStorage.LoadAll().FirstOrDefault();
             
             /* Assert */
@@ -50,9 +50,9 @@ namespace NHibernateExample.Tests
             var john = ProducePerson();
 
             var passport = new Passport { Person = john, Number = 98765, Issued = DateTime.Now };
-            _passportsStorage.Save(passport);
 
             /* Act */
+            _passportsStorage.Save(passport);
             var loadedPassport = _passportsStorage.LoadAllWithRelations().FirstOrDefault();
             
             /* Assert */
@@ -69,6 +69,31 @@ namespace NHibernateExample.Tests
             loadedOwner.Name.Should().Be(john.Name);
         }
 
+        [Fact]
+        public void SaveForSpecifiedPersonLoadWithRelations()
+        {
+            /* Arrange */
+            var john = ProducePerson();
+
+            var passport = new Passport { Number = 98765, Issued = DateTime.Now };
+
+            /* Act */
+            _passportsStorage.SaveFor(john.SSN, passport);
+            var loadedPassport = _passportsStorage.LoadAllWithRelations().FirstOrDefault();
+
+            /* Assert */
+            loadedPassport.Should().NotBeNull();
+
+            loadedPassport.Should().NotBeSameAs(passport);
+            loadedPassport.Number.Should().Be(passport.Number);
+
+            var loadedOwner = loadedPassport.Person;
+            loadedOwner.Should().NotBeNull();
+            loadedOwner.Should().NotBeSameAs(john);
+
+            loadedOwner.Name.Should().Be(john.Name);
+        }
+        
         private Person ProducePerson()
         {
             var john = new Person {Name = "John", SSN = 123454321};

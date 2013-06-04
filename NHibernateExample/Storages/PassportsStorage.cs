@@ -25,6 +25,24 @@ namespace NHibernateExample.Storages
             }
         }
 
+        public void SaveFor(int ssn, Passport passport)
+        {
+            using (var session = _factory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    const string hqlInsert = "INSERT INTO Passport (Person, Number, Issued) SELECT per, :number, :issued FROM Person per WHERE SSN = :ssn";
+                    session.CreateQuery(hqlInsert)
+                        .SetInt32("number", passport.Number)
+                        .SetDateTime("issued", passport.Issued)
+                        .SetInt32("ssn", ssn)
+                        .ExecuteUpdate();
+                    
+                    transaction.Commit();
+                }
+            }
+        }
+
         public IEnumerable<Passport> LoadAll()
         {
             using (ISession session = _factory.OpenSession())
